@@ -1,0 +1,64 @@
+.section-heading {
+  margin-bottom: var(--space-10);
+  position: relative;
+  z-index: var(--z-normal);
+}
+
+.section-heading.align-center {
+  text-align: center;
+}
+.section-heading.align-left {
+  text-align: left;
+}
+.section-heading.align-right {
+  text-align: right;
+}
+
+.section-heading .eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.section-heading .title {
+  font-size: var(--font-size-3xl);
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .section-heading .title {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+.section-heading .subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+  max-width: 600px;
+}
+
+.section-heading.align-center .subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Light variant for dark backgrounds */
+.section-heading.light .title {
+  color: var(--color-white);
+}
+
+.section-heading.light .eyebrow {
+  color: var(--color-surface-light);
+}
+
+.section-heading.light .subtitle {
+  color: var(--color-surface-soft);
+  opacity: 0.9;
+}

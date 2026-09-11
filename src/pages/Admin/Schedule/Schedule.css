@@ -1,0 +1,114 @@
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.schedule-item {
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  background-color: var(--color-surface-soft);
+  transition: opacity var(--transition-fast);
+}
+
+.schedule-item.inactive {
+  opacity: 0.7;
+  background-color: #F9FAFB;
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid rgba(4, 46, 84, 0.1);
+}
+
+.schedule-header h3 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.schedule-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.schedule-fields .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.schedule-fields label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.schedule-fields input {
+  padding: var(--space-2);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+}
+
+.schedule-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Simple Toggle Switch */
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-switch .slider {
+  width: 36px;
+  height: 20px;
+  background-color: #CBD5E1;
+  border-radius: 20px;
+  position: relative;
+  transition: background-color var(--transition-fast);
+  margin-right: var(--space-2);
+}
+
+.toggle-switch .slider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform var(--transition-fast);
+}
+
+.toggle-switch input:checked + .slider {
+  background-color: var(--color-accent);
+}
+
+.toggle-switch input:checked + .slider::after {
+  transform: translateX(16px);
+}
+
+.toggle-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  width: 40px;
+}

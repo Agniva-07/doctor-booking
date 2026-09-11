@@ -1,0 +1,129 @@
+.contact-page {
+  background-color: var(--color-surface-soft);
+  min-height: calc(100vh - 80px);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+  position: relative;
+  z-index: var(--z-normal);
+}
+
+@media (min-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-12);
+  }
+}
+
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.contact-card {
+  background-color: var(--color-white);
+  padding: var(--space-8);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: var(--border-thin);
+}
+
+.contact-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid rgba(6, 59, 103, 0.1);
+}
+
+.contact-item {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.contact-item:last-child {
+  margin-bottom: 0;
+}
+
+.contact-icon {
+  color: var(--color-accent);
+  margin-top: 2px;
+}
+
+.contact-text a,
+.contact-text address {
+  color: var(--color-text-main);
+  font-style: normal;
+  line-height: 1.6;
+  transition: color var(--transition-fast);
+}
+
+.contact-text a:hover {
+  color: var(--color-primary);
+}
+
+.hours-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.hours-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hours-list .day {
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.hours-list .time {
+  text-align: right;
+  color: var(--color-text-muted);
+}
+
+.hours-list small {
+  color: var(--color-text-light);
+  font-size: 0.85em;
+}
+
+.contact-map-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.map-wrapper {
+  background-color: var(--color-surface-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-thin);
+}
+
+.map-placeholder {
+  text-align: center;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+}
+
+@media (min-width: 1024px) {
+  .map-wrapper {
+    height: 100%;
+    min-height: 400px;
+  }
+}

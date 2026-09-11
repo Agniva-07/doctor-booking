@@ -1,1 +1,71 @@
-/* Variables placeholder */
+:root {
+  /* Color System */
+  --color-primary: #042E54; /* Deeper Medical Navy */
+  --color-secondary: #0A4A80; /* Refined Clinical Blue */
+  --color-accent: #117878; /* Muted Medical Teal */
+  --color-accent-light: #F0FAF7;
+  
+  --color-surface-light: #F2F7FA; /* Very Light Blue */
+  --color-surface-soft: #F8FBFC; /* Soft Ice */
+  --color-white: #FFFFFF;
+  --color-champagne: #F5EFE6; /* Subtle Antique Accent */
+
+  /* Text Colors */
+  --color-text-main: #042E54; /* Primary Text */
+  --color-text-muted: #4A637A; /* Slate / Blue-gray */
+  --color-text-light: #8BA1B5;
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', serif, Times, 'Times New Roman';
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3.5rem;
+  --font-size-6xl: 4.5rem;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Borders & Shadows */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+  
+  --border-thin: 1px solid rgba(4, 46, 84, 0.08);
+  --border-light: 1px solid rgba(255, 255, 255, 0.15);
+  --shadow-sm: 0 4px 12px rgba(4, 46, 84, 0.04);
+  --shadow-md: 0 8px 24px rgba(4, 46, 84, 0.06);
+  --shadow-lg: 0 16px 48px rgba(4, 46, 84, 0.08);
+
+  /* Transitions */
+  --transition-fast: 250ms ease-in-out;
+  --transition-normal: 400ms ease-in-out;
+  --transition-slow: 700ms ease-in-out;
+
+  /* Z-Index */
+  --z-bg: -1;
+  --z-normal: 1;
+  --z-sticky: 100;
+  --z-overlay: 1000;
+  --z-modal: 1010;
+}
