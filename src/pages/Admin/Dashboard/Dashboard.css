@@ -1,0 +1,98 @@
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.stat-card h3 {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-5xl);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+/* Common Admin Table Styles */
+.table-responsive {
+  overflow-x: auto;
+  margin-top: var(--space-4);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid rgba(4, 46, 84, 0.1);
+}
+
+.admin-table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid rgba(4, 46, 84, 0.1);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+}
+
+.admin-table tr:hover td {
+  background-color: var(--color-surface-soft);
+}
+
+.empty-state {
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-surface-soft);
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(4, 46, 84, 0.2);
+  margin-top: var(--space-4);
+}
+
+.error-text {
+  color: #DC2626;
+  font-weight: 500;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-confirmed {
+  background-color: #DEF7EC;
+  color: #03543F;
+}
+
+.status-cancelled {
+  background-color: #FDE8E8;
+  color: #9B1C1C;
+}

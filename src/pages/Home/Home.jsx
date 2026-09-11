@@ -1,7 +1,7 @@
 import Button from '../../components/Button/Button';
 import BlueprintBackground from '../../components/BlueprintBackground/BlueprintBackground';
 import useScrollReveal from '../../hooks/useScrollReveal';
-import heroImage from '../../assets/hero.png';
+import heroImage from '../../assets/images/doctor.jpeg';
 import './Home.css';
 
 // A small helper component to avoid repetitive hook calls in the same file
@@ -43,7 +43,7 @@ export default function Home() {
             
             <div className="hero-actions">
               <Button to="/appointment" size="lg">Book Appointment</Button>
-              <Button href="tel:9434991914" variant="secondary" size="lg">Call Now</Button>
+              <Button href="tel:8900012992" variant="secondary" size="lg">Call Now</Button>
             </div>
           </RevealSection>
           
@@ -194,7 +194,6 @@ export default function Home() {
               
               <div className="info-group">
                 <h4 className="info-label">Contact</h4>
-                <a href="tel:9434991914" className="info-text">9434991914</a><br/>
                 <a href="tel:8900012992" className="info-text">8900012992</a>
               </div>
               

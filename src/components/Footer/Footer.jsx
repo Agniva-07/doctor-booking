@@ -31,9 +31,6 @@ export default function Footer() {
               <h4 className="footer-heading">Contact</h4>
               <ul className="footer-contact-list">
                 <li>
-                  <a href="tel:9434991914">9434991914</a>
-                </li>
-                <li>
                   <a href="tel:8900012992">8900012992</a>
                 </li>
                 <li>

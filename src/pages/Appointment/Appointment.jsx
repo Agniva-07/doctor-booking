@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { appointmentsService } from '../../services/appointments';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import BlueprintBackground from '../../components/BlueprintBackground/BlueprintBackground';
 import Button from '../../components/Button/Button';
@@ -13,6 +14,7 @@ export default function Appointment() {
   });
   
   const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [errorMessage, setErrorMessage] = useState('');
   const [appointmentDetails, setAppointmentDetails] = useState(null);
 
   const handleChange = (e) => {
@@ -20,36 +22,53 @@ export default function Appointment() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
     
     // Validation
     if (!formData.name || !formData.phone || !formData.address || !formData.date) {
+      setErrorMessage('Please fill in all required fields.');
+      setStatus('error');
+      return;
+    }
+
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      setErrorMessage('Cannot book appointments in the past.');
       setStatus('error');
       return;
     }
 
     setStatus('loading');
     
-    // Simulate API call for booking
-    setTimeout(() => {
-      // Mock success state
-      const mockId = `A-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+    try {
+      const data = await appointmentsService.bookAppointment(formData);
+      
       setAppointmentDetails({
-        id: mockId,
+        id: data.appointment_number || data.id || 'Confirmed',
         name: formData.name,
-        date: formData.date,
-        time: '7:30 PM - 8:00 PM', // Mocked auto-allocated time
+        date: data.date || data.appointment_date || formData.date,
+        time: data.allotted_time || data.time || (data.slot_start ? `${data.slot_start} - ${data.slot_end}` : 'As assigned'),
         location: 'Chotobazar, Midnapore',
         doctor: 'Dr. Suman Pandab'
       });
+      
       setStatus('success');
-    }, 1500);
+    } catch (error) {
+      console.error("Booking failed:", error);
+      setErrorMessage(error.message || 'An unexpected error occurred. Please try again later.');
+      setStatus('error');
+    }
   };
 
   const handleReset = () => {
     setFormData({ name: '', phone: '', address: '', date: '' });
     setStatus('idle');
+    setErrorMessage('');
     setAppointmentDetails(null);
   };
 
@@ -92,7 +111,7 @@ export default function Appointment() {
                       </svg>
                     </div>
                     <h3>Appointment Confirmed</h3>
-                    <p className="success-msg">Your appointment has been reserved successfully.</p>
+                    <p className="success-msg">Your appointment has been reserved successfully. Please arrive at the chamber during your allotted time.</p>
                     
                     <div className="ticket">
                       <div className="ticket-row">
@@ -105,7 +124,7 @@ export default function Appointment() {
                       </div>
                       <div className="ticket-row">
                         <span className="ticket-label">Date:</span>
-                        <span className="ticket-value">{new Date(appointmentDetails.date).toLocaleDateString('en-GB')}</span>
+                        <span className="ticket-value">{new Date(appointmentDetails.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                       </div>
                       <div className="ticket-row">
                         <span className="ticket-label">Time:</span>
@@ -117,8 +136,6 @@ export default function Appointment() {
                       </div>
                     </div>
                     
-                    <p className="mock-notice">* This is a frontend demo. No actual booking was made.</p>
-                    
                     <Button onClick={handleReset} fullWidth variant="secondary">Book Another Appointment</Button>
                   </div>
                 ) : (
@@ -126,7 +143,7 @@ export default function Appointment() {
                     <h3 className="form-title">Patient Details</h3>
                     
                     {status === 'error' && (
-                      <div className="error-alert">Please fill in all required fields.</div>
+                      <div className="error-alert">{errorMessage}</div>
                     )}
                     
                     <div className="form-group">

@@ -1,6 +1,6 @@
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import BlueprintBackground from '../../components/BlueprintBackground/BlueprintBackground';
-import heroImage from '../../assets/hero.png';
+import heroImage from '../../assets/images/doctor.jpeg';;
 import './About.css';
 
 export default function About() {

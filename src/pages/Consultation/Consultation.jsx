@@ -18,7 +18,7 @@ export default function Consultation() {
   };
 
   const getWhatsAppLink = () => {
-    const phone = "919434991914"; // Clinic phone number
+    const phone = "918900012992"; // Clinic phone number
     const message = `Hello Dr. Suman Pandab,\nI would like to consult regarding:\n\nName: ${formData.name}\nPhone: ${formData.phone}\nAddress: ${formData.address}\nConcern: ${formData.concern}`;
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };

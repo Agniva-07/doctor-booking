@@ -4,10 +4,15 @@ import About from './pages/About/About';
 import Consultation from './pages/Consultation/Consultation';
 import Appointment from './pages/Appointment/Appointment';
 import Contact from './pages/Contact/Contact';
+
+// Admin
+import AdminLayout from './layouts/AdminLayout';
+import Login from './pages/Admin/Login/Login';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import Appointments from './pages/Admin/Appointments/Appointments';
 import Schedule from './pages/Admin/Schedule/Schedule';
 import Settings from './pages/Admin/Settings/Settings';
+
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import './styles/global.css';
@@ -30,6 +35,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route element={<MainLayout />}>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
@@ -38,11 +44,16 @@ export default function App() {
           <Route path='/contact' element={<Contact />} />
         </Route>
         
-        {/* Admin Routes without main frontend layout */}
-        <Route path='/admin' element={<Dashboard />} />
-        <Route path='/admin/appointments' element={<Appointments />} />
-        <Route path='/admin/schedule' element={<Schedule />} />
-        <Route path='/admin/settings' element={<Settings />} />
+        {/* Admin Public Route */}
+        <Route path='/admin/login' element={<Login />} />
+
+        {/* Admin Protected Routes */}
+        <Route path='/admin' element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path='appointments' element={<Appointments />} />
+          <Route path='schedule' element={<Schedule />} />
+          <Route path='settings' element={<Settings />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
