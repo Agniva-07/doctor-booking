@@ -1,0 +1,77 @@
+.blueprint-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.blueprint-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blueprint-content {
+  position: relative;
+  z-index: var(--z-normal);
+}
+
+.blueprint-motif {
+  position: absolute;
+  pointer-events: none;
+  z-index: var(--z-bg);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blueprint-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Positioning variants */
+.blueprint-pos-right {
+  top: 50%;
+  right: -10%;
+  transform: translateY(-50%);
+  width: 70%;
+  max-width: 800px;
+  min-width: 300px;
+}
+
+.blueprint-pos-left {
+  top: 50%;
+  left: -15%;
+  transform: translateY(-50%);
+  width: 60%;
+  max-width: 700px;
+  min-width: 300px;
+}
+
+.blueprint-pos-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 1000px;
+  min-width: 400px;
+}
+
+.blueprint-pos-bottom-right {
+  bottom: -15%;
+  right: -15%;
+  width: 80%;
+  max-width: 900px;
+  min-width: 400px;
+}
+
+@media (max-width: 768px) {
+  .blueprint-motif {
+    opacity: calc(var(--opacity) * 0.8) !important;
+  }
+}
