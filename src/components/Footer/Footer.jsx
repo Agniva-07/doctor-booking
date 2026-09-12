@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import BlueprintBackground from '../BlueprintBackground/BlueprintBackground';
 import logoImage from '../../assets/images/Logo.png';
+import { clinicData } from '../../data/clinicData';
 import './Footer.css';
 
 export default function Footer() {
@@ -14,8 +15,8 @@ export default function Footer() {
               <div className="footer-brand">
                 <img src={logoImage} alt="Dr. Suman Pandab Logo" className="footer-logo" />
                 <div className="footer-brand-text">
-                  <h3 className="footer-brand-name">Dr. Suman Pandab</h3>
-                  <p className="footer-subtitle">Homoeopathic Physician</p>
+                  <h3 className="footer-brand-name">{clinicData.doctorName}</h3>
+                  <p className="footer-subtitle">{clinicData.profession}</p>
                 </div>
               </div>
               <p className="footer-desc">
@@ -37,12 +38,12 @@ export default function Footer() {
               <h4 className="footer-heading">Contact</h4>
               <ul className="footer-contact-list">
                 <li>
-                  <a href="tel:8900012992">8900012992</a>
+                  <a href={`tel:${clinicData.phone}`}>{clinicData.phone}</a>
                 </li>
                 <li>
                   <address>
-                    Chotobazar, Midnapore<br/>
-                    West Bengal
+                    {clinicData.address.line1}<br/>
+                    {clinicData.address.line2}
                   </address>
                 </li>
               </ul>
@@ -53,11 +54,11 @@ export default function Footer() {
               <ul className="footer-hours">
                 <li>
                   <span>Mon - Sat:</span>
-                  <span>7:30 PM - 9:30 PM</span>
+                  <span>{clinicData.visitingHours.monToSat}</span>
                 </li>
                 <li>
                   <span>Sunday:</span>
-                  <span>11:00 AM - 1:00 PM</span>
+                  <span>{clinicData.visitingHours.sunday}</span>
                 </li>
               </ul>
               <div className="footer-map-wrapper">
@@ -82,7 +83,10 @@ export default function Footer() {
           </div>
 
           <div className="footer-bottom">
-            <p>&copy; {new Date().getFullYear()} Dr. Suman Pandab. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} {clinicData.doctorName}. All rights reserved.</p>
+            <p className="footer-credit">
+              Built by <span className="half-byte">Half Byte</span>
+            </p>
           </div>
         </div>
       </BlueprintBackground>

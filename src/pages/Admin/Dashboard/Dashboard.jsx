@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './Dashboard.css';
 import { appointmentsService } from '../../../services/appointments';
+import { clinicData } from '../../../data/clinicData';
 
 const Icons = {
   Calendar: () => (
@@ -175,7 +176,7 @@ const Dashboard = () => {
             <h3 className="summary-card-title">Chamber Hours</h3>
             <span className="summary-card-icon"><Icons.Clock /></span>
           </div>
-          <p className="summary-card-value" style={{fontSize: '1.25rem'}}>7:30 PM – 10:00 PM</p>
+          <p className="summary-card-value" style={{fontSize: '1.25rem'}}>{clinicData.visitingHours.monToSat}</p>
           <p className="summary-card-subtitle">Daily schedule</p>
         </div>
         <div className="summary-card">

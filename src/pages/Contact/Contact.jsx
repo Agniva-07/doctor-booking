@@ -1,6 +1,7 @@
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import BlueprintBackground from '../../components/BlueprintBackground/BlueprintBackground';
 import Button from '../../components/Button/Button';
+import { clinicData } from '../../data/clinicData';
 import './Contact.css';
 
 export default function Contact() {
@@ -25,7 +26,7 @@ export default function Contact() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                   </div>
                   <div className="contact-text">
-                    <a href="tel:8900012992">8900012992</a>
+                    <a href={`tel:${clinicData.phone}`}>{clinicData.phone}</a>
                   </div>
                 </div>
 
@@ -35,8 +36,8 @@ export default function Contact() {
                   </div>
                   <div className="contact-text">
                     <address>
-                      Chotobazar, Midnapore<br/>
-                      West Bengal
+                      {clinicData.address.line1}<br/>
+                      {clinicData.address.line2}
                     </address>
                   </div>
                 </div>
@@ -47,11 +48,11 @@ export default function Contact() {
                 <ul className="hours-list">
                   <li>
                     <span className="day">Monday - Saturday</span>
-                    <span className="time">7:30 PM - 9:30 PM</span>
+                    <span className="time">{clinicData.visitingHours.monToSat}</span>
                   </li>
                   <li>
                     <span className="day">Sunday</span>
-                    <span className="time">11:00 AM - 1:00 PM <br/><small>(Evening Closed)</small></span>
+                    <span className="time">{clinicData.visitingHours.sunday} <br/><small>(Evening Closed)</small></span>
                   </li>
                 </ul>
               </div>

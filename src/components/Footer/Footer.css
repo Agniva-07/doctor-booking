@@ -46,6 +46,9 @@
   height: 48px;
   width: auto;
   object-fit: contain;
+  background-color: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: 4px;
 }
 
 .footer-brand-text {
@@ -188,6 +191,20 @@
   color: var(--color-white);
   opacity: 0.5;
   letter-spacing: 0.02em;
+}
+
+.footer-credit {
+  opacity: 0.8 !important;
+}
+
+.half-byte {
+  color: var(--color-gold);
+  font-weight: 500;
+  transition: opacity var(--transition-fast);
+}
+
+.half-byte:hover {
+  opacity: 0.8;
 }
 
 @media (min-width: 768px) {
