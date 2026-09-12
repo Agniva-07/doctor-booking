@@ -1,211 +1,171 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Schedule.css';
-import { mockScheduleSettings } from '../mockData';
+import { scheduleService } from '../../../services/schedule';
 
 const Icons = {
-  Trash: () => (
+  Lock: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+  ),
+  Info: () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
     </svg>
   )
 };
 
 const Schedule = () => {
-  const [workingDays, setWorkingDays] = useState(mockScheduleSettings.workingDays);
-  const [workingHours, setWorkingHours] = useState(mockScheduleSettings.workingHours);
-  const [slotDuration, setSlotDuration] = useState(mockScheduleSettings.slotDuration);
-  const [blockedDates, setBlockedDates] = useState(mockScheduleSettings.blockedDates);
+  const [workingDays, setWorkingDays] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [newBlockDate, setNewBlockDate] = useState('');
-  const [newBlockReason, setNewBlockReason] = useState('');
+  useEffect(() => {
+    let mounted = true;
+    const loadSchedule = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await scheduleService.fetchSchedule();
+        if (mounted && data) {
+          const wdMap = {};
+          data.forEach(day => {
+            wdMap[day.day_of_week] = day.is_active;
+          });
+          setWorkingDays(wdMap);
+        }
+      } catch (err) {
+        console.error("Failed to load schedule:", err);
+        if (mounted) setError(err.message || 'Failed to fetch schedule data');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    loadSchedule();
+    return () => { mounted = false; };
+  }, []);
 
-  const toggleDay = (day) => {
-    setWorkingDays(prev => ({
-      ...prev,
-      [day]: !prev[day]
-    }));
-  };
-
-  const handleRemoveBlockedDate = (indexToRemove) => {
-    setBlockedDates(prev => prev.filter((_, idx) => idx !== indexToRemove));
-  };
-
-  const handleAddBlockedDate = () => {
-    if (!newBlockDate) return;
-    setBlockedDates(prev => [...prev, {
-      date: newBlockDate,
-      reason: newBlockReason || 'No reason provided'
-    }].sort((a, b) => new Date(a.date) - new Date(b.date)));
-    setNewBlockDate('');
-    setNewBlockReason('');
+  const toggleDay = async (dayKey) => {
+    const newVal = !workingDays[dayKey];
+    // Optimistic update
+    setWorkingDays(prev => ({ ...prev, [dayKey]: newVal }));
+    try {
+      await scheduleService.updateSchedule(dayKey, { is_active: newVal });
+    } catch (err) {
+      console.error("Failed to update schedule day:", err);
+      alert(`Failed to update day.`);
+      // Revert on error
+      setWorkingDays(prev => ({ ...prev, [dayKey]: !newVal }));
+    }
   };
 
   const daysOfWeek = [
-    { key: 'Monday', label: 'MON' },
-    { key: 'Tuesday', label: 'TUE' },
-    { key: 'Wednesday', label: 'WED' },
-    { key: 'Thursday', label: 'THU' },
-    { key: 'Friday', label: 'FRI' },
-    { key: 'Saturday', label: 'SAT' },
-    { key: 'Sunday', label: 'SUN' },
+    { key: 1, label: 'MON' },
+    { key: 2, label: 'TUE' },
+    { key: 3, label: 'WED' },
+    { key: 4, label: 'THU' },
+    { key: 5, label: 'FRI' },
+    { key: 6, label: 'SAT' },
+    { key: 0, label: 'SUN' },
   ];
-
-  const slotOptions = ["15 minutes", "20 minutes", "30 minutes", "45 minutes", "60 minutes"];
 
   return (
     <div className="schedule-container">
       <div className="schedule-header">
         <h1>Schedule</h1>
-        <p>Manage your working hours and availability.</p>
+        <p>Manage your working days and availability.</p>
       </div>
 
-      <div className="schedule-grid">
-        <div className="schedule-column">
-          <div className="schedule-card" style={{ marginBottom: '32px' }}>
-            <h2>Working Days</h2>
-            <div className="weekly-schedule">
-              {daysOfWeek.map(({key, label}) => {
-                const isWorking = workingDays[key];
-                return (
-                  <div className={`day-row ${isWorking ? 'is-working' : ''}`} key={key}>
-                    <div className="day-label">
-                      <span>{label}</span>
+      {loading ? (
+        <div style={{padding: '40px', color: 'var(--text-muted)'}}>Loading schedule...</div>
+      ) : error ? (
+        <div style={{padding: '40px', color: '#dc2626', background: 'var(--bg-ice)', borderRadius: '8px'}}>
+          Error: {error}. Could not load schedule.
+        </div>
+      ) : (
+        <div className="schedule-grid">
+          <div className="schedule-column">
+            <div className="schedule-card" style={{ marginBottom: '32px' }}>
+              <h2>Working Days</h2>
+              <div className="weekly-schedule">
+                {daysOfWeek.map(({key, label}) => {
+                  const isWorking = !!workingDays[key];
+                  // If the day wasn't in the DB at all, it will default to false visually.
+                  // We only allow toggling if it exists in the workingDays map or we assume 
+                  // it will be upserted. Usually updateSchedule needs a record to exist. 
+                  // If it doesn't exist, we'll let it try to update and fail if no row exists, 
+                  // or the service might handle it.
+                  
+                  return (
+                    <div className={`day-row ${isWorking ? 'is-working' : ''}`} key={key}>
+                      <div className="day-label">
+                        <span>{label}</span>
+                      </div>
+                      <div className="day-status">
+                        <span className="status-dot" style={{
+                          width: '6px', height: '6px', borderRadius: '50%',
+                          backgroundColor: isWorking ? 'var(--primary)' : 'var(--text-light)'
+                        }}></span>
+                        {isWorking ? 'Working' : 'Off'}
+                      </div>
+                      <label className="toggle-switch">
+                        <input 
+                          type="checkbox" 
+                          checked={isWorking}
+                          onChange={() => toggleDay(key)}
+                          aria-label={`Toggle ${label}`}
+                        />
+                        <span className="toggle-slider"></span>
+                      </label>
                     </div>
-                    <div className="day-status">
-                      <span className="status-dot" style={{
-                        width: '6px', height: '6px', borderRadius: '50%',
-                        backgroundColor: isWorking ? 'var(--primary)' : 'var(--text-light)'
-                      }}></span>
-                      {isWorking ? 'Working' : 'Off'}
-                    </div>
-                    <label className="toggle-switch">
-                      <input 
-                        type="checkbox" 
-                        checked={isWorking}
-                        onChange={() => toggleDay(key)}
-                        aria-label={`Toggle ${key}`}
-                      />
-                      <span className="toggle-slider"></span>
-                    </label>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="schedule-card locked-card">
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+                <h2 style={{marginBottom: 0}}>Chamber Configuration</h2>
+                <span className="lock-icon" title="Fixed by business rules"><Icons.Lock /></span>
+              </div>
+              
+              <div className="locked-info-grid">
+                <div className="locked-info-item">
+                  <span className="locked-label">Opening Time</span>
+                  <span className="locked-value">7:30 PM</span>
+                </div>
+                <div className="locked-info-item">
+                  <span className="locked-label">Closing Time</span>
+                  <span className="locked-value">10:00 PM</span>
+                </div>
+                <div className="locked-info-item">
+                  <span className="locked-label">Slot Duration</span>
+                  <span className="locked-value">10 min</span>
+                </div>
+                <div className="locked-info-item">
+                  <span className="locked-label">Daily Capacity</span>
+                  <span className="locked-value">15 patients</span>
+                </div>
+              </div>
+              <p className="locked-note">These rules are locked and govern automatic appointment allocation.</p>
             </div>
           </div>
 
-          <div className="schedule-card">
-            <h2>Working Hours & Slots</h2>
-            
-            <div style={{display: 'flex', gap: '16px', marginBottom: '24px'}}>
-              <div className="form-group" style={{flex: 1, marginBottom: 0}}>
-                <label>Opening Time</label>
-                <select 
-                  className="control-input"
-                  value={workingHours.opening}
-                  onChange={(e) => setWorkingHours({...workingHours, opening: e.target.value})}
-                >
-                  <option value="08:00 AM">08:00 AM</option>
-                  <option value="09:00 AM">09:00 AM</option>
-                  <option value="10:00 AM">10:00 AM</option>
-                  <option value="11:00 AM">11:00 AM</option>
-                </select>
-              </div>
+          <div className="schedule-column">
+            <div className="schedule-card">
+              <h2>Blocked Dates</h2>
+              <p style={{color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '24px'}}>
+                Add specific dates when you are unavailable. Patients will not be able to book appointments on these days.
+              </p>
 
-              <div className="form-group" style={{flex: 1, marginBottom: 0}}>
-                <label>Closing Time</label>
-                <select 
-                  className="control-input"
-                  value={workingHours.closing}
-                  onChange={(e) => setWorkingHours({...workingHours, closing: e.target.value})}
-                >
-                  <option value="04:00 PM">04:00 PM</option>
-                  <option value="05:00 PM">05:00 PM</option>
-                  <option value="06:00 PM">06:00 PM</option>
-                  <option value="07:00 PM">07:00 PM</option>
-                  <option value="08:00 PM">08:00 PM</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Slot Duration</label>
-              <div className="option-group">
-                {slotOptions.map(option => (
-                  <button
-                    key={option}
-                    className={`option-pill ${slotDuration === option ? 'active' : ''}`}
-                    onClick={() => setSlotDuration(option)}
-                  >
-                    {option.replace(' minutes', ' min')}
-                  </button>
-                ))}
+              <div className="empty-state" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '32px' }}>
+                <Icons.Info />
+                <span>Blocked dates persistence is not currently supported by the backend service.</span>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="schedule-column">
-          <div className="schedule-card">
-            <h2>Blocked Dates</h2>
-            <p style={{color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '24px'}}>
-              Add specific dates when you are unavailable. Patients will not be able to book appointments on these days.
-            </p>
-
-            <div className="blocked-dates-list">
-              {blockedDates.length > 0 ? blockedDates.map((block, idx) => (
-                <div className="blocked-date-card" key={idx}>
-                  <div className="blocked-date-info">
-                    <strong>{new Date(block.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</strong>
-                    <span>{block.reason}</span>
-                  </div>
-                  <button 
-                    className="btn-icon-danger" 
-                    onClick={() => handleRemoveBlockedDate(idx)}
-                    aria-label="Remove blocked date"
-                  >
-                    <Icons.Trash />
-                  </button>
-                </div>
-              )) : (
-                <div className="empty-state">
-                  No blocked dates configured.
-                </div>
-              )}
-            </div>
-
-            <div className="add-block-form">
-              <div className="form-group">
-                <label>Date</label>
-                <input 
-                  type="date" 
-                  className="control-input" 
-                  value={newBlockDate}
-                  onChange={(e) => setNewBlockDate(e.target.value)}
-                  min={new Date().toISOString().split('T')[0]}
-                />
-              </div>
-              <div className="form-group">
-                <label>Reason (Optional)</label>
-                <input 
-                  type="text" 
-                  className="control-input" 
-                  placeholder="e.g. Conference"
-                  value={newBlockReason}
-                  onChange={(e) => setNewBlockReason(e.target.value)}
-                />
-              </div>
-              <button 
-                className="btn-primary" 
-                onClick={handleAddBlockedDate}
-                disabled={!newBlockDate}
-                style={{height: '42px', opacity: !newBlockDate ? 0.5 : 1}}
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

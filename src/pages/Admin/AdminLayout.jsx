@@ -3,8 +3,8 @@ import './AdminLayout.css';
 import Dashboard from './Dashboard/Dashboard';
 import Appointments from './Appointments/Appointments';
 import Schedule from './Schedule/Schedule';
-import Settings from './Settings/Settings';
-import { mockDoctorProfile } from './mockData';
+
+const DOCTOR_NAME = "Dr. Suman Pandab";
 
 const Icons = {
   Dashboard: () => (
@@ -57,8 +57,6 @@ const AdminLayout = () => {
         return <Appointments />;
       case 'schedule':
         return <Schedule />;
-      case 'settings':
-        return <Settings />;
       default:
         return <Dashboard />;
     }
@@ -68,7 +66,6 @@ const AdminLayout = () => {
     { id: 'dashboard', label: 'Dashboard', Icon: Icons.Dashboard },
     { id: 'appointments', label: 'Appointments', Icon: Icons.Appointments },
     { id: 'schedule', label: 'Schedule', Icon: Icons.Schedule },
-    { id: 'settings', label: 'Settings', Icon: Icons.Settings },
   ];
 
   const handleNavClick = (tabId) => {
@@ -94,10 +91,10 @@ const AdminLayout = () => {
       <aside className={`admin-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="admin-sidebar-header">
           <div className="admin-avatar">
-            {getInitials(mockDoctorProfile.name)}
+            {getInitials(DOCTOR_NAME)}
           </div>
           <div className="admin-doctor-info">
-            <h2 className="admin-doctor-name">{mockDoctorProfile.name}</h2>
+            <h2 className="admin-doctor-name">{DOCTOR_NAME}</h2>
             <p className="admin-doctor-role">Clinic Admin</p>
           </div>
         </div>

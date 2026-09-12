@@ -10,7 +10,7 @@ const Settings = () => {
   const [notifications, setNotifications] = useState(mockAppSettings.notifications);
 
   const [isSaving, setIsSaving] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true); // Simplified for demo to always show
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const handleSave = () => {
     setIsSaving(true);
@@ -130,29 +130,31 @@ const Settings = () => {
         return (
           <>
             <h2 className="settings-section-title">Appointment Rules</h2>
-            <p className="settings-section-desc">Configure how patients can book appointments.</p>
+            <p className="settings-section-desc">Configure how patients can book appointments. Some rules are locked by the system.</p>
             <div className="settings-form-grid">
               <div className="form-group">
-                <label>Default Appointment Duration</label>
-                <select 
-                  className="form-input" 
-                  value={appSettings.defaultDuration}
-                  onChange={e => handleChange(setAppSettings, appSettings, 'defaultDuration', e.target.value)}
-                >
-                  <option value="15 minutes">15 minutes</option>
-                  <option value="30 minutes">30 minutes</option>
-                  <option value="45 minutes">45 minutes</option>
-                  <option value="60 minutes">60 minutes</option>
-                </select>
+                <label>Default Appointment Duration (Locked)</label>
+                <div style={{
+                  padding: '10px 14px', 
+                  background: 'var(--bg-ice)', 
+                  border: '1px solid var(--border-light)', 
+                  borderRadius: '8px',
+                  color: 'var(--text-muted)'
+                }}>
+                  10 minutes
+                </div>
               </div>
               <div className="form-group">
-                <label>Max Appointments per Day</label>
-                <input 
-                  type="number" 
-                  className="form-input" 
-                  value={appSettings.maxAppointmentsPerDay}
-                  onChange={e => handleChange(setAppSettings, appSettings, 'maxAppointmentsPerDay', e.target.value)}
-                />
+                <label>Max Appointments per Day (Locked)</label>
+                <div style={{
+                  padding: '10px 14px', 
+                  background: 'var(--bg-ice)', 
+                  border: '1px solid var(--border-light)', 
+                  borderRadius: '8px',
+                  color: 'var(--text-muted)'
+                }}>
+                  15 patients
+                </div>
               </div>
               <div className="form-group">
                 <label>Advance Booking Period</label>
