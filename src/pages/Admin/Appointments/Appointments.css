@@ -39,10 +39,10 @@
 .appointments-controls {
   display: flex;
   gap: 16px;
-  background-color: var(--bg-card);
+  background: linear-gradient(135deg, #F0FDF4 0%, #E0F2FE 100%);
   padding: 20px;
   border-radius: 12px;
-  border: 1px solid var(--border-light);
+  border: 1px solid #BAE6FD;
   box-shadow: var(--shadow-sm);
   flex-wrap: wrap;
 }
@@ -117,6 +117,7 @@
   background-color: var(--bg-card);
   border-radius: 12px;
   border: 1px solid var(--border-light);
+  border-top: 4px solid #0F766E;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
@@ -134,13 +135,13 @@
 
 .appointments-table th {
   padding: 12px 14px;
-  background-color: var(--bg-app);
-  color: var(--text-muted);
-  font-weight: 600;
+  background: #E0F2FE;
+  color: #0369A1;
+  font-weight: 700;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 2px solid #0F766E;
   white-space: nowrap;
 }
 
@@ -156,7 +157,7 @@
 
 .appointments-table td {
   padding: 12px 14px;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid #0F766E;
   vertical-align: middle;
   font-size: 0.9375rem;
 }
@@ -240,9 +241,9 @@
   left: 0;
   width: 22px;
   height: 22px;
-  background-color: var(--bg-card);
-  border: 2px solid var(--text-muted); /* Darker border, clearly visible */
-  border-radius: 4px; /* Clean square with rounded corners */
+  background-color: #ffffff;
+  border: 2px solid #64748B;
+  border-radius: 4px;
   transition: all var(--transition-fast);
 }
 
@@ -296,13 +297,13 @@
 }
 
 .done-action-wrapper.is-completed .done-label {
-  color: var(--primary);
+  color: #0F766E !important;
   font-weight: 600;
 }
 
 .done-action-wrapper.is-completed .done-checkmark {
-  background-color: var(--primary);
-  border-color: var(--primary);
+  background-color: #0F766E !important;
+  border-color: #0F766E !important;
 }
 
 .done-action-wrapper.is-completed .done-checkmark:after {
@@ -348,7 +349,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid #E9D5FF;
+  background: linear-gradient(to right, #F3E8FF, #E0F2FE);
 }
 
 .calendar-header h3 {
@@ -416,25 +418,42 @@
   visibility: hidden;
 }
 
-.calendar-day:hover:not(.calendar-day-selected) {
+.calendar-day:hover:not(.calendar-day-selected):not(.calendar-day-today) {
   background-color: var(--primary-light);
 }
 
-.calendar-day.calendar-day-today {
-  font-weight: 600;
-  border-color: var(--border-light);
-  color: var(--text-main);
+/* TODAY state (also handles Today + Selected) */
+.calendar-day.calendar-day-today,
+.calendar-day.calendar-day-today:hover,
+.calendar-day.calendar-day-today:focus,
+.calendar-day.calendar-day-today:active {
+  background: #0F766E !important; /* Explicit hardcoded teal to prevent white render bug */
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-color: #0F766E !important;
+  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3) !important;
+  opacity: 1 !important;
+  outline: none !important;
 }
 
+.calendar-day.calendar-day-today .day-number {
+  color: #ffffff !important;
+}
+
+.calendar-day.calendar-day-today .appointment-dot {
+  background: #ffffff !important;
+}
+
+/* SELECTED state (Not Today) */
 .calendar-day.calendar-day-selected,
 .calendar-day.calendar-day-selected:hover,
 .calendar-day.calendar-day-selected:focus,
 .calendar-day.calendar-day-selected:active {
-  background-color: var(--primary) !important;
-  color: #ffffff !important;
+  background: #CCFBF1 !important; /* Clearly visible light teal to match theme */
+  color: #0F766E !important; /* Use hardcoded color to prevent var issues */
   font-weight: 600 !important;
-  border-color: var(--primary) !important;
-  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3) !important;
+  border-color: #CCFBF1 !important;
+  box-shadow: none !important;
   opacity: 1 !important;
   outline: none !important;
 }
@@ -446,7 +465,7 @@
 }
 
 .calendar-day.calendar-day-selected .day-number {
-  color: #ffffff !important;
+  color: #0F766E !important;
 }
 
 .appointment-dot {
@@ -459,11 +478,7 @@
 }
 
 .calendar-day.calendar-day-selected .appointment-dot {
-  background-color: #ffffff !important;
-}
-
-.calendar-day.calendar-day-today .appointment-dot {
-  background-color: var(--primary);
+  background: #0F766E !important;
 }
 
 

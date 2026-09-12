@@ -17,73 +17,37 @@ const Icons = {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
     </svg>
+  ),
+  ChevronLeft: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  ),
+  ChevronRight: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
   )
 };
 
-// Normalize time strings from DB which might be '19:30:00' or '07:30 PM' or '19:30'
-const normalizeTime = (timeStr) => {
-  if (!timeStr) return '';
-  const upper = timeStr.toUpperCase();
-  if (upper.includes('PM')) {
-    const [time] = upper.split(' ');
-    const [h, m] = time.split(':');
-    let hour = parseInt(h, 10);
-    if (hour !== 12) hour += 12;
-    return `${hour.toString().padStart(2, '0')}:${m}:00`;
-  }
-  if (upper.includes('AM')) {
-    const [time] = upper.split(' ');
-    const [h, m] = time.split(':');
-    let hour = parseInt(h, 10);
-    if (hour === 12) hour = 0;
-    return `${hour.toString().padStart(2, '0')}:${m}:00`;
-  }
-  if (timeStr.length === 5) return `${timeStr}:00`;
-  return timeStr;
+const formatYMD = (d) => {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
 };
 
-// Generate exactly 15 slots (10 mins each) from 7:30 PM to 10:00 PM
-const generateSlots = () => {
-  const slots = [];
-  let currentHour = 19;
-  let currentMinute = 30;
-  
-  for (let i = 1; i <= 15; i++) {
-    const startStr = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}:00`;
-    const start12Hour = currentHour > 12 ? currentHour - 12 : currentHour;
-    const startDisplay = `${start12Hour}:${currentMinute.toString().padStart(2, '0')} PM`;
-    
-    currentMinute += 10;
-    if (currentMinute >= 60) {
-      currentMinute -= 60;
-      currentHour += 1;
-    }
-    
-    const endStr = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}:00`;
-    const end12Hour = currentHour > 12 ? currentHour - 12 : currentHour;
-    const endDisplay = `${end12Hour}:${currentMinute.toString().padStart(2, '0')} PM`;
-    
-    slots.push({
-      id: i,
-      number: `#${i.toString().padStart(2, '0')}`,
-      startStr,
-      endStr,
-      displayRange: `${startDisplay} - ${endDisplay}`,
-      appointment: null
-    });
-  }
-  return slots;
-};
+const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+const firstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
 
 const Dashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  
   const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const todayStr = `${yyyy}-${mm}-${dd}`;
+  const todayStr = formatYMD(today);
   
   const formattedDate = today.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -97,8 +61,8 @@ const Dashboard = () => {
     const loadAppointments = async () => {
       try {
         setLoading(true);
-        // Fetch only today's appointments
-        const data = await appointmentsService.fetchAppointments(todayStr);
+        // Fetch ALL appointments to show counts across the month
+        const data = await appointmentsService.fetchAppointments();
         if (mounted) {
           setAppointments(data || []);
         }
@@ -110,30 +74,76 @@ const Dashboard = () => {
     };
     loadAppointments();
     return () => { mounted = false; };
-  }, [todayStr]);
+  }, []);
 
-  const timelineSlots = useMemo(() => {
-    const baseSlots = generateSlots();
-    // Map appointments into base slots
-    appointments.forEach(apt => {
-      if (!apt.slot_start) return;
-      const normalizedAptStart = normalizeTime(apt.slot_start);
-      const targetSlot = baseSlots.find(s => s.startStr === normalizedAptStart);
-      if (targetSlot) {
-        targetSlot.appointment = apt;
-      }
+  const todaysAppointments = useMemo(() => {
+    return appointments.filter(apt => {
+      const d = apt.appointment_date || apt.date;
+      return d === todayStr;
     });
-    return baseSlots;
-  }, [appointments]);
+  }, [appointments, todayStr]);
 
-  const bookedCount = timelineSlots.filter(s => s.appointment).length;
-  const availableCount = 15 - bookedCount;
-  const isFull = bookedCount === 15;
+  const bookedCount = todaysAppointments.length;
+  const availableCount = Math.max(0, 15 - bookedCount);
+  const isFull = bookedCount >= 15;
 
-  const getInitials = (name) => {
-    if (!name) return '?';
-    const parts = name.split(' ');
-    return parts.length > 1 ? `${parts[0][0]}${parts[parts.length-1][0]}`.toUpperCase() : name[0].toUpperCase();
+  const renderCalendar = () => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    
+    const numDays = daysInMonth(year, month);
+    const startDay = firstDayOfMonth(year, month);
+    
+    const days = [];
+    for (let i = 0; i < startDay; i++) {
+      days.push(<div key={`empty-${i}`} className="dash-cal-day empty"></div>);
+    }
+    
+    for (let d = 1; d <= numDays; d++) {
+      const dateObj = new Date(year, month, d);
+      const dateYMD = formatYMD(dateObj);
+      const isToday = dateYMD === todayStr;
+      
+      const dayAppts = appointments.filter(a => (a.appointment_date || a.date) === dateYMD);
+      const count = dayAppts.length;
+      
+      days.push(
+        <div key={d} className={`dash-cal-day ${isToday ? 'dash-cal-today' : ''} ${count > 0 ? 'has-appointments' : ''}`}>
+          <span className="dash-day-num">{d}</span>
+          <div className="dash-day-content">
+            {count > 0 ? (
+              <span className="dash-apt-count">{count} {count === 1 ? 'apt' : 'apts'}</span>
+            ) : null}
+          </div>
+        </div>
+      );
+    }
+    
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    return (
+      <div className="dash-calendar-wrapper">
+        <div className="dash-calendar-header">
+          <button className="dash-cal-nav" onClick={() => setCurrentMonth(new Date(year, month - 1, 1))} aria-label="Previous Month">
+            <Icons.ChevronLeft />
+          </button>
+          <h3>{monthNames[month]} {year}</h3>
+          <button className="dash-cal-nav" onClick={() => setCurrentMonth(new Date(year, month + 1, 1))} aria-label="Next Month">
+            <Icons.ChevronRight />
+          </button>
+        </div>
+        <div className="dash-calendar-grid">
+          <div className="dash-cal-dow">Su</div>
+          <div className="dash-cal-dow">Mo</div>
+          <div className="dash-cal-dow">Tu</div>
+          <div className="dash-cal-dow">We</div>
+          <div className="dash-cal-dow">Th</div>
+          <div className="dash-cal-dow">Fr</div>
+          <div className="dash-cal-dow">Sa</div>
+          {days}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -180,48 +190,14 @@ const Dashboard = () => {
 
       <div className="dashboard-section-card full-width">
         <div className="section-header">
-          <h2>Timeline</h2>
-          {isFull && <div className="status-badge error">TODAY IS FULL</div>}
+          <h2>Monthly Overview</h2>
         </div>
         
-        <div className="timeline-view">
+        <div className="monthly-view">
           {loading ? (
-            <div className="loading-state">Loading timeline...</div>
+            <div className="loading-state">Loading calendar...</div>
           ) : (
-            <div className="slots-grid">
-              {timelineSlots.map(slot => (
-                <div key={slot.id} className={`slot-item ${slot.appointment ? 'booked' : 'available'}`}>
-                  <div className="slot-time-col">
-                    <div className="slot-number">{slot.number}</div>
-                    <div className="slot-range">{slot.displayRange}</div>
-                  </div>
-                  <div className="slot-details-col">
-                    {slot.appointment ? (
-                      <div className="slot-booked-card">
-                        <div className="patient-avatar-small">
-                          {getInitials(slot.appointment.patient_name || slot.appointment.name)}
-                        </div>
-                        <div className="booked-info">
-                          <h4 className="patient-name">{slot.appointment.patient_name || slot.appointment.name}</h4>
-                          <span className="patient-phone">{slot.appointment.patient_phone || slot.appointment.phone || 'No phone'}</span>
-                        </div>
-                        <div className="booked-meta">
-                          <div className="apt-id">{slot.appointment.appointment_number || slot.appointment.id}</div>
-                          <div className={`status-indicator ${slot.appointment.status || 'confirmed'}`}>
-                            <span className="status-dot"></span>
-                            {slot.appointment.status || 'confirmed'}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="slot-available-card">
-                        <span className="available-text">AVAILABLE</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+            renderCalendar()
           )}
         </div>
       </div>
