@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
+import logoImage from '../../assets/images/Logo.png';
 import './Navbar.css';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [adminClickCount, setAdminClickCount] = useState(0);
+  const clickTimeoutRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,13 +21,38 @@ export default function Navbar() {
 
   const closeMenu = () => setIsMobileMenuOpen(false);
 
+  const handleLogoClick = (e) => {
+    // Normal single click navigates to Home natively via React Router <Link>
+    setAdminClickCount((prev) => {
+      const newCount = prev + 1;
+      if (newCount >= 7) {
+        navigate('/admin/login');
+        return 0; // reset
+      }
+      return newCount;
+    });
+
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+    
+    clickTimeoutRef.current = setTimeout(() => {
+      setAdminClickCount(0);
+    }, 1500);
+
+    closeMenu();
+  };
+
   return (
     <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-container">
         
-        <Link to="/" className="navbar-brand" onClick={closeMenu}>
-          <span className="brand-name">Dr. Suman Pandab</span>
-          <span className="brand-subtitle">Homoeopathic Physician</span>
+        <Link to="/" className="navbar-brand" onClick={handleLogoClick}>
+          <img src={logoImage} alt="Dr. Suman Pandab Logo" className="brand-logo" />
+          <div className="brand-text">
+            <span className="brand-name">Dr. Suman Pandab</span>
+            <span className="brand-subtitle">Homoeopathic Physician</span>
+          </div>
         </Link>
 
         <button 
