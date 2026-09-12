@@ -36,11 +36,29 @@
 }
 
 .footer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.footer-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand-name {
   font-family: var(--font-heading);
   font-size: var(--font-size-3xl);
   font-weight: 500;
   color: var(--color-white);
-  margin-bottom: var(--space-2);
+  margin-bottom: 2px;
 }
 
 .footer-subtitle {

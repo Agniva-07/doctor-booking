@@ -25,6 +25,24 @@
 
 .navbar-brand {
   display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brand-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .brand-logo {
+    height: 48px;
+  }
+}
+
+.brand-text {
+  display: flex;
   flex-direction: column;
 }
 

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import BlueprintBackground from '../BlueprintBackground/BlueprintBackground';
+import logoImage from '../../assets/images/Logo.png';
 import './Footer.css';
 
 export default function Footer() {
@@ -10,8 +11,13 @@ export default function Footer() {
           <div className="footer-grid">
             
             <div className="footer-col">
-              <h3 className="footer-brand">Dr. Suman Pandab</h3>
-              <p className="footer-subtitle">Homoeopathic Physician</p>
+              <div className="footer-brand">
+                <img src={logoImage} alt="Dr. Suman Pandab Logo" className="footer-logo" />
+                <div className="footer-brand-text">
+                  <h3 className="footer-brand-name">Dr. Suman Pandab</h3>
+                  <p className="footer-subtitle">Homoeopathic Physician</p>
+                </div>
+              </div>
               <p className="footer-desc">
                 Providing thoughtful homoeopathic care for a healthier tomorrow. Safe, natural, and personalized treatment.
               </p>
