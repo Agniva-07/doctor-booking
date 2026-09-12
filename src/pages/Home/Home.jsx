@@ -212,13 +212,22 @@ export default function Home() {
             
             <RevealSection className="location-map" delayClass="reveal-delay-200">
               <div className="map-frame">
-                <div className="map-placeholder">
-                  <span>Map Preview</span>
-                  <p>Midnapore, West Bengal</p>
-                  <Button href="https://maps.google.com/?q=Midnapore+West+Bengal" variant="secondary" size="sm">
-                    Get Directions
-                  </Button>
-                </div>
+                <a 
+                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="map-overlay" 
+                  title="Get Directions to Dr. Suman Pandab"
+                >
+                  <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
+                </a>
+                <iframe 
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  className="map-iframe" 
+                  allowFullScreen 
+                  loading="lazy"
+                  title="Doctor Location Map"
+                ></iframe>
               </div>
             </RevealSection>
           </div>
