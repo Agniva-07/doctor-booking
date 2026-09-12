@@ -49,6 +49,7 @@ img {
 .text-center { text-align: center; }
 .text-muted { color: var(--color-text-muted); }
 .text-primary { color: var(--color-primary); }
+.text-gold { color: var(--color-gold); }
 .font-serif { font-family: var(--font-heading); }
 
 /* Editorial Utilities */
