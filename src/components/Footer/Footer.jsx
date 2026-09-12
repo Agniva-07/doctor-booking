@@ -60,6 +60,24 @@ export default function Footer() {
                   <span>11:00 AM - 1:00 PM</span>
                 </li>
               </ul>
+              <div className="footer-map-wrapper">
+                <a 
+                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="footer-map-overlay" 
+                  title="Get Directions to Dr. Suman Pandab"
+                >
+                  <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
+                </a>
+                <iframe 
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  className="footer-map-iframe" 
+                  allowFullScreen 
+                  loading="lazy"
+                  title="Doctor Location Map"
+                ></iframe>
+              </div>
             </div>
           </div>
 

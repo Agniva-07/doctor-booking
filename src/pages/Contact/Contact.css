@@ -114,11 +114,17 @@
   border: var(--border-thin);
 }
 
-.map-placeholder {
-  text-align: center;
-  color: var(--color-primary);
-  font-family: var(--font-heading);
-  font-size: var(--font-size-xl);
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.map-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 @media (min-width: 1024px) {

@@ -59,20 +59,30 @@ export default function Contact() {
             </div>
 
             <div className="contact-map-col">
-              <div className="map-wrapper">
-                {/* Placeholder for actual Google Maps Embed */}
-                <div className="map-placeholder">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5, marginBottom: '1rem' }}>
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                  <p>Map View</p>
-                  <span className="text-muted text-sm" style={{ display: 'block', marginTop: '0.5rem' }}>Chotobazar, Midnapore</span>
-                </div>
+              <div className="map-wrapper" style={{ position: 'relative', width: '100%', height: '350px', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid rgba(4, 46, 84, 0.1)' }}>
+                <a 
+                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="map-overlay" 
+                  title="Get Directions to Dr. Suman Pandab"
+                >
+                  <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
+                </a>
+                <iframe 
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  className="map-iframe" 
+                  allowFullScreen 
+                  loading="lazy"
+                  title="Doctor Location Map"
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                ></iframe>
               </div>
               <div className="map-actions">
                 <Button 
-                  href="https://maps.google.com/?q=Chotobazar,+Midnapore" 
+                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
                   fullWidth
                 >
                   Get Directions &rarr;
