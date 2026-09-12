@@ -100,7 +100,11 @@ const Appointments = () => {
                           
       const matchDate = aptDate === selectedYMD;
 
-      return matchSearch && matchDate;
+      if (searchTerm.trim() !== '') {
+        return matchSearch;
+      }
+
+      return matchDate;
     });
   }, [appointments, searchTerm, selectedDate]);
 
@@ -165,11 +169,17 @@ const Appointments = () => {
       const isToday = dateYMD === todayYMD;
       const isSelected = dateYMD === selectedYMD;
       const hasAppointment = appointmentDates.has(dateYMD);
+      let dayClass = '';
+      if (isToday) {
+        dayClass = 'calendar-day-today';
+      } else if (isSelected) {
+        dayClass = 'calendar-day-selected';
+      }
       
       days.push(
         <button 
           key={d} 
-          className={`calendar-day ${isSelected ? 'calendar-day-selected' : ''} ${isToday && !isSelected ? 'calendar-day-today' : ''}`}
+          className={`calendar-day ${dayClass}`}
           onClick={() => {
             setSelectedDate(dateObj);
             // reset current month to the selected date's month if clicking from another view somehow, 
