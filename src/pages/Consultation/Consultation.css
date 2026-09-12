@@ -1,6 +1,9 @@
 .consultation-page {
   background-color: var(--color-surface-soft);
-  min-height: calc(100vh - 80px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .consultation-form-wrapper {

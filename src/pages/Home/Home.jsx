@@ -212,17 +212,8 @@ export default function Home() {
             
             <RevealSection className="location-map" delayClass="reveal-delay-200">
               <div className="map-frame">
-                <a 
-                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="map-overlay" 
-                  title="Get Directions to Dr. Suman Pandab"
-                >
-                  <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
-                </a>
                 <iframe 
-                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=B&output=embed" 
                   className="map-iframe" 
                   allowFullScreen 
                   loading="lazy"

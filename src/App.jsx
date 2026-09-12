@@ -22,9 +22,9 @@ import './styles/responsive.css';
 
 function MainLayout() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', paddingTop: '80px' }}>
+    <div className="main-layout-wrapper">
       <Navbar />
-      <main style={{ flex: 1 }}>
+      <main className="main-content">
         <Outlet />
       </main>
       <Footer />

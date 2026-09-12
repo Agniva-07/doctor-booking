@@ -54,39 +54,29 @@ export default function Contact() {
                     <span className="time">11:00 AM - 1:00 PM <br/><small>(Evening Closed)</small></span>
                   </li>
                 </ul>
+                <div className="directions-action">
+                  <Button 
+                    href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    fullWidth
+                  >
+                    Get Directions &rarr;
+                  </Button>
+                </div>
               </div>
 
             </div>
 
             <div className="contact-map-col">
-              <div className="map-wrapper" style={{ position: 'relative', width: '100%', height: '350px', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid rgba(4, 46, 84, 0.1)' }}>
-                <a 
-                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="map-overlay" 
-                  title="Get Directions to Dr. Suman Pandab"
-                >
-                  <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
-                </a>
+              <div className="map-wrapper">
                 <iframe 
-                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=B&output=embed" 
                   className="map-iframe" 
                   allowFullScreen 
                   loading="lazy"
                   title="Doctor Location Map"
-                  style={{ width: '100%', height: '100%', border: 'none' }}
                 ></iframe>
-              </div>
-              <div className="map-actions">
-                <Button 
-                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  fullWidth
-                >
-                  Get Directions &rarr;
-                </Button>
               </div>
             </div>
           </div>
