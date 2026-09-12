@@ -10,7 +10,7 @@ export default function Footer() {
       <BlueprintBackground motif="stethoscope" opacity={0.03} position="left" scale={1.5} className="footer-blueprint">
         <div className="container">
           <div className="footer-grid">
-            
+
             <div className="footer-col">
               <div className="footer-brand">
                 <img src={logoImage} alt="Dr. Suman Pandab Logo" className="footer-logo" />
@@ -42,7 +42,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <address>
-                    {clinicData.address.line1}<br/>
+                    {clinicData.address.line1}<br />
                     {clinicData.address.line2}
                   </address>
                 </li>
@@ -62,19 +62,19 @@ export default function Footer() {
                 </li>
               </ul>
               <div className="footer-map-wrapper">
-                <a 
-                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="footer-map-overlay" 
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-map-overlay"
                   title="Get Directions to Dr. Suman Pandab"
                 >
                   <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
                 </a>
-                <iframe 
-                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                  className="footer-map-iframe" 
-                  allowFullScreen 
+                <iframe
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  className="footer-map-iframe"
+                  allowFullScreen
                   loading="lazy"
                   title="Doctor Location Map"
                 ></iframe>
