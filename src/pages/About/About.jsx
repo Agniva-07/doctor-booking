@@ -1,6 +1,7 @@
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import BlueprintBackground from '../../components/BlueprintBackground/BlueprintBackground';
-import heroImage from '../../assets/images/doctor.jpeg';;
+import heroImage from '../../assets/images/doctor.jpeg';
+import logoImage from '../../assets/images/Logo.png';
 import './About.css';
 
 export default function About() {
@@ -23,24 +24,25 @@ export default function About() {
             
             <div className="about-content-col">
               <div className="about-block">
-                <h3 className="about-heading">Professional Background</h3>
+                <img src={logoImage} alt="Brand Motif" className="about-brand-logo" />
+                <h3 className="about-heading text-primary">Professional Background</h3>
                 <p>
-                  Dr. Suman Pandab is a qualified Homoeopathic Physician holding a B.H.M.S. degree from WBUHS and D.E.P.H. from VU.
+                  <strong>Dr. Suman Pandab</strong> is a qualified Homoeopathic Physician holding a <strong>B.H.M.S.</strong> degree from WBUHS and <strong>D.E.P.H.</strong> from VU.
                 </p>
                 <p>
-                  He currently serves as a Medical Officer (Ayush) under the Department of Health & Family Welfare, Government of West Bengal.
+                  He currently serves as a <strong>Medical Officer (Ayush)</strong> under the <strong>Department of Health & Family Welfare</strong>, <strong>Government of West Bengal</strong>.
                 </p>
               </div>
 
               <div className="about-divider" aria-hidden="true"></div>
 
               <div className="about-block">
-                <h3 className="about-heading">Care Philosophy</h3>
+                <h3 className="about-heading text-primary">Care Philosophy</h3>
                 <p>
                   Believing in the principles of safe, natural, and holistic healing, Dr. Pandab focuses on treating the individual as a whole rather than just addressing isolated symptoms. 
                 </p>
                 <p>
-                  His patient-centred approach ensures that every individual receives personalized attention and a treatment plan tailored to their specific health needs.
+                  His patient-centred approach ensures that every individual receives <strong className="text-gold">personalized patient care</strong> and a treatment plan tailored to their specific health needs.
                 </p>
               </div>
               
@@ -55,7 +57,7 @@ export default function About() {
                 </div>
                 <div className="credential-item full-width">
                   <span className="credential-title">Medical Officer (Ayush)</span>
-                  <span className="credential-org">Dept. of Health & Family Welfare, Govt. of W.B.</span>
+                  <span className="credential-org">Dept. of Health &amp; Family Welfare, Govt. of W.B.</span>
                 </div>
               </div>
             </div>

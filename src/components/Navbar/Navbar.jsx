@@ -35,7 +35,7 @@ export default function Navbar() {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
     }
-    
+
     clickTimeoutRef.current = setTimeout(() => {
       setAdminClickCount(0);
     }, 1500);
@@ -46,7 +46,7 @@ export default function Navbar() {
   return (
     <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-container">
-        
+
         <Link to="/" className="navbar-brand" onClick={handleLogoClick}>
           <img src={logoImage} alt="Dr. Suman Pandab Logo" className="brand-logo" />
           <div className="brand-text">
@@ -55,7 +55,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <button 
+        <button
           className={`mobile-menu-toggle ${isMobileMenuOpen ? 'open' : ''}`}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle navigation menu"
@@ -68,22 +68,22 @@ export default function Navbar() {
         <nav className={`navbar-nav ${isMobileMenuOpen ? 'open' : ''}`}>
           <ul className="nav-links">
             <li>
-              <NavLink to="/" onClick={closeMenu} className={({isActive}) => isActive ? 'active' : ''}>Home</NavLink>
+              <NavLink to="/" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
             </li>
             <li>
-              <NavLink to="/about" onClick={closeMenu} className={({isActive}) => isActive ? 'active' : ''}>About</NavLink>
+              <NavLink to="/about" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>About</NavLink>
             </li>
             <li>
-              <NavLink to="/consultation" onClick={closeMenu} className={({isActive}) => isActive ? 'active' : ''}>Consultation</NavLink>
+              <NavLink to="/consultation" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>Consultation</NavLink>
             </li>
             <li>
-              <NavLink to="/appointment" onClick={closeMenu} className={({isActive}) => isActive ? 'active' : ''}>Appointment</NavLink>
+              <NavLink to="/appointment" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>Appointment</NavLink>
             </li>
             <li>
-              <NavLink to="/contact" onClick={closeMenu} className={({isActive}) => isActive ? 'active' : ''}>Contact</NavLink>
+              <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
             </li>
           </ul>
-          
+
           <div className="nav-actions">
             <a href="tel:8900012992" className="nav-phone">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

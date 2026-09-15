@@ -2,6 +2,7 @@ import Button from '../../components/Button/Button';
 import BlueprintBackground from '../../components/BlueprintBackground/BlueprintBackground';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import heroImage from '../../assets/images/doctor.jpeg';
+import { clinicData } from '../../data/clinicData';
 import './Home.css';
 
 // A small helper component to avoid repetitive hook calls in the same file
@@ -25,11 +26,11 @@ export default function Home() {
         <div className="container hero-container">
           <RevealSection className="hero-content">
             <span className="eyebrow">Your Health, Our Commitment</span>
-            <h1 className="hero-title">Dr. Suman Pandab</h1>
+            <h1 className="hero-title">{clinicData.doctorName}</h1>
             
             <div className="hero-credentials-block">
               <p className="hero-degree">B.H.M.S. (WBUHS), D.E.P.H. (VU)</p>
-              <p className="hero-role">Homoeopathic Physician</p>
+              <p className="hero-role">{clinicData.profession}</p>
               
               <div className="hero-mo-block">
                 <span className="mo-label">Medical Officer (Ayush)</span>
@@ -43,7 +44,7 @@ export default function Home() {
             
             <div className="hero-actions">
               <Button to="/appointment" size="lg">Book Appointment</Button>
-              <Button href="tel:8900012992" variant="secondary" size="lg">Call Now</Button>
+              <Button href={`tel:${clinicData.phone}`} variant="secondary" size="lg">Call Now</Button>
             </div>
           </RevealSection>
           
@@ -187,38 +188,47 @@ export default function Home() {
               <div className="info-group">
                 <h4 className="info-label">Chamber Address</h4>
                 <address className="info-text">
-                  Chotobazar, Midnapore<br/>
-                  West Bengal
+                  {clinicData.address.line1}<br/>
+                  {clinicData.address.line2}
                 </address>
               </div>
               
               <div className="info-group">
                 <h4 className="info-label">Contact</h4>
-                <a href="tel:8900012992" className="info-text">8900012992</a>
+                <a href={`tel:${clinicData.phone}`} className="info-text">{clinicData.phone}</a>
               </div>
               
               <div className="info-group">
                 <h4 className="info-label">Visiting Hours</h4>
                 <div className="hours-row">
                   <span>Mon - Sat:</span>
-                  <span>7:30 PM - 9:30 PM</span>
+                  <span>{clinicData.visitingHours.monToSat}</span>
                 </div>
                 <div className="hours-row">
                   <span>Sunday:</span>
-                  <span>11:00 AM - 1:00 PM</span>
+                  <span>{clinicData.visitingHours.sunday}</span>
                 </div>
               </div>
             </RevealSection>
             
             <RevealSection className="location-map" delayClass="reveal-delay-200">
               <div className="map-frame">
-                <div className="map-placeholder">
-                  <span>Map Preview</span>
-                  <p>Midnapore, West Bengal</p>
-                  <Button href="https://maps.google.com/?q=Midnapore+West+Bengal" variant="secondary" size="sm">
-                    Get Directions
-                  </Button>
-                </div>
+                <a 
+                  href="https://www.google.com/maps/dir/?api=1&destination=22.4152831,87.3274097" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="map-overlay" 
+                  title="Get Directions to Dr. Suman Pandab"
+                >
+                  <span className="sr-only">Get Directions to Dr. Suman Pandab</span>
+                </a>
+                <iframe 
+                  src="https://maps.google.com/maps?q=22.4152831,87.3274097&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  className="map-iframe" 
+                  allowFullScreen 
+                  loading="lazy"
+                  title="Doctor Location Map"
+                ></iframe>
               </div>
             </RevealSection>
           </div>
