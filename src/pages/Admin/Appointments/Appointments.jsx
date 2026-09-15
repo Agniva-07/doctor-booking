@@ -263,7 +263,7 @@ const Appointments = () => {
                       <th>Contact</th>
                       <th>Date</th>
                       <th>Assigned Slot</th>
-                      <th style={{width: '120px'}}>Done</th>
+                      {/* <th style={{width: '120px'}}>Done</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -292,6 +292,7 @@ const Appointments = () => {
                           <td data-label="Assigned Slot">
                             <span className="slot-badge">{time || '-'}</span>
                           </td>
+                          {/* 
                           <td data-label="Done" onClick={e => e.stopPropagation()}>
                             <label className={`done-action-wrapper ${isCompleted ? 'is-completed' : ''} ${isCancelled ? 'disabled-cancelled' : ''} ${isUpdating ? 'updating' : ''}`}>
                               <div className="done-checkbox">
@@ -307,6 +308,7 @@ const Appointments = () => {
                               <span className="done-label">Done</span>
                             </label>
                           </td>
+                          */}
                         </tr>
                       );
                     }) : (
